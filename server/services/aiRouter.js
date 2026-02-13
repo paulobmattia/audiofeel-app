@@ -119,8 +119,17 @@ export async function analyzeIntent(query) {
       }
     };
 
-    const text = await generateWithRetry();
-    log(`Output: ${text}`);
+    // Wrapper to enforce timeout
+    const generateWithTimeout = async () => {
+      const timeoutMs = 4000; // 4s max wait for AI
+      return Promise.race([
+        generateWithRetry(1, 1000), // 1 retry only, 1s delay
+        new Promise((_, reject) => setTimeout(() => reject(new Error("AI Request Timed Out")), timeoutMs))
+      ]);
+    };
+
+    const text = await generateWithTimeout();
+    log(`Output (Speed: OK): ${text}`);
 
     const json = JSON.parse(text);
     log(`✅ Parsed JSON: ${JSON.stringify(json, null, 2)}`);

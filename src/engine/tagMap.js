@@ -7,6 +7,7 @@ export const SENTIMENT_TAGS = {
     'melancolico': ['melancholy', 'melancholic', 'sad', 'ambient', 'dreampop', 'shoegaze', 'slowcore'],
     'triste': ['sad', 'melancholy', 'emotional', 'ballad', 'acoustic', 'slowcore'],
     'alegre': ['happy', 'upbeat', 'feel good', 'pop', 'sunshine pop', 'indie pop'],
+    'alegria': ['happy', 'joy', 'feel good', 'upbeat', 'soul', 'funk'],
     'feliz': ['happy', 'upbeat', 'feel good', 'pop', 'sunshine pop', 'indie pop'],
     'felicidade': ['happy', 'joy', 'feel good', 'upbeat', 'soul', 'funk', 'pop'],
     'animado': ['energetic', 'upbeat', 'dance', 'party', 'fun', 'power pop'],
