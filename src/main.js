@@ -38,8 +38,14 @@ const AudioPlayer = {
     this._clearPlaying();
 
     // Start new
+    console.log(`🎵 Playing preview: ${previewUrl}`);
     this.audio.src = previewUrl;
-    this.audio.play().catch(() => { });
+    this.audio.play()
+      .then(() => console.log('✅ Playback started'))
+      .catch((e) => {
+        console.error('❌ Playback failed:', e);
+        alert(`Erro ao reproduzir preview: ${e.message}`);
+      });
     this.currentTrackId = trackId;
 
     // Update mini-player
@@ -69,7 +75,12 @@ const AudioPlayer = {
 
   toggle() {
     if (this.audio.paused) {
-      this.audio.play().catch(() => { });
+      this.audio.play()
+        .then(() => console.log('✅ Resumed playback'))
+        .catch((e) => {
+          console.error('❌ Resume failed:', e);
+          alert(`Erro ao retomar playback: ${e.message}`);
+        });
       this._showPauseIcon(true);
       this._startProgress();
     } else {
