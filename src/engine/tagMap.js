@@ -7,6 +7,8 @@ export const SENTIMENT_TAGS = {
     'melancolico': ['melancholy', 'melancholic', 'sad', 'ambient', 'dreampop', 'shoegaze', 'slowcore'],
     'triste': ['sad', 'melancholy', 'emotional', 'ballad', 'acoustic', 'slowcore'],
     'alegre': ['happy', 'upbeat', 'feel good', 'pop', 'sunshine pop', 'indie pop'],
+    'feliz': ['happy', 'upbeat', 'feel good', 'pop', 'sunshine pop', 'indie pop'],
+    'felicidade': ['happy', 'joy', 'feel good', 'upbeat', 'soul', 'funk', 'pop'],
     'animado': ['energetic', 'upbeat', 'dance', 'party', 'fun', 'power pop'],
     'calmo': ['calm', 'chill', 'ambient', 'relaxing', 'acoustic', 'meditation', 'new age'],
     'tranquilo': ['chill', 'calm', 'lounge', 'bossa nova', 'easy listening', 'smooth jazz'],
@@ -291,7 +293,7 @@ export function extractKeywordsFromText(text) {
         'pesadelo', 'caos', 'ordem', 'natureza', 'tecnologia', 'paixão', 'loucura',
         'obsessão', 'destino', 'sobrevivência', 'rebelião', 'inocência',
         'corrupção', 'redenção', 'perda', 'luto', 'desejo', 'horror', 'terror',
-        'suspense', 'intriga', 'melancolia', 'nostalgia', 'euforia',
+        'suspense', 'intriga', 'melancolia', 'nostalgia', 'euforia', 'felicidade', 'feliz',
         'dúvida', 'incerteza', 'indecisão',
     ]);
 
