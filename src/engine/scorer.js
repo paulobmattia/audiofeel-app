@@ -79,8 +79,11 @@ export function calculateIntersectionScore(item, intentTags, entities) {
         const baseScore = 65;
         const maxBonus = 35; // 65 + 35 = 100
         const additionalMatches = matchCount - 1;
-        const maxAdditional = Math.max(intentTags.length - 1, 1);
-        score = baseScore + (additionalMatches / maxAdditional) * maxBonus;
+        // Cap the denominator: if there are 15 tags, matching 5 is excellent (100%).
+        // We shouldn't require matching all 15 for a perfect score.
+        const maxAdditional = Math.min(Math.max(intentTags.length - 1, 1), 4);
+
+        score = baseScore + Math.min((additionalMatches / maxAdditional), 1) * maxBonus;
     }
 
     // Bonus for tracks that appeared in multiple tag searches (sourceTags)

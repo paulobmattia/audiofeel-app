@@ -335,8 +335,12 @@ function createCardHTML(item, index) {
   // If backend provides matchedTags (uppercase), use them to highlight
   const matchedSet = new Set((item.matchedTags || []).map(t => t.toUpperCase()));
 
-  // Merge source tags and matched tags for display
-  const visibleTags = [...new Set([...(item.matchedTags || []), ...(item.tags || [item.sourceTag])].filter(Boolean))].slice(0, 4);
+  // Merge source tags and matched tags for display (Case-insensitive dedupe)
+  const visibleTags = [...new Map(
+    [...(item.matchedTags || []), ...(item.tags || [item.sourceTag])]
+      .filter(Boolean)
+      .map(t => [t.toLowerCase(), t]) // Map lower -> original
+  ).values()].slice(0, 4);
 
   const tagHTML = visibleTags.map(tag => {
     const isMatched = matchedSet.has(tag.toUpperCase()) || searchTags.includes(tag);
