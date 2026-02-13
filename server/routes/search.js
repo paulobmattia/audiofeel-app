@@ -15,7 +15,7 @@ export const searchRouter = Router();
 
 searchRouter.post('/', async (req, res) => {
     try {
-        const { query } = req.body;
+        const { query, type: userType } = req.body;
         if (!query || !query.trim()) {
             return res.status(400).json({ error: 'Query is required' });
         }
@@ -24,7 +24,7 @@ searchRouter.post('/', async (req, res) => {
         const tmdbKey = process.env.TMDB_API_KEY;
         const useMock = !apiKey;
 
-        console.log(`🤖 Semantic Search Init: "${query}"`);
+        console.log(`🤖 Semantic Search Init: "${query}" [Type: ${userType || 'auto'}]`);
 
         // 1. Semantic Routing (Gemini)
         let aiIntent = await analyzeIntent(query);
@@ -34,6 +34,10 @@ searchRouter.post('/', async (req, res) => {
         let lastfmQuery = query;
         let useTagSearch = false; // Whether to use tag-based retrieval instead of text search
 
+        // Determine effective mode
+        const isSentimentMode = ['sentimentos', 'vibes', 'concepts', 'colors'].includes(userType);
+        const isMediaMode = ['filmes', 'livros'].includes(userType);
+
         // processing AI Result
         if (aiIntent) {
             console.log("✨ Synthesized Intent:", JSON.stringify(aiIntent.search_intent));
@@ -42,16 +46,24 @@ searchRouter.post('/', async (req, res) => {
             useTagSearch = true; // AI always provides good tags for tag-based search
 
             // Entity Enrichment (Knowledge Graph)
-            if (aiIntent.entities && aiIntent.entities.length > 0) {
+            // SKIPPED if user strictly wants sentiments/vibes
+            if (!isSentimentMode && aiIntent.entities && aiIntent.entities.length > 0) {
                 const entity = aiIntent.entities[0]; // Primary entity
 
                 try {
-                    if (entity.type === 'book') {
-                        enrichmentData = await enrichBook(entity.name);
-                        if (enrichmentData) enrichmentData.type = 'book';
-                    } else if (entity.type === 'movie' && tmdbKey) {
-                        enrichmentData = await enrichMovie(entity.name, tmdbKey);
-                        if (enrichmentData) enrichmentData.type = 'movie';
+                    // Filter by user preference if specified
+                    if (userType === 'livros' && entity.type !== 'book') {
+                        console.log(`Checking entities: Ignoring ${entity.type} because user wants Book.`);
+                    } else if (userType === 'filmes' && entity.type !== 'movie') {
+                        console.log(`Checking entities: Ignoring ${entity.type} because user wants Movie.`);
+                    } else {
+                        if (entity.type === 'book') {
+                            enrichmentData = await enrichBook(entity.name);
+                            if (enrichmentData) enrichmentData.type = 'book';
+                        } else if (entity.type === 'movie' && tmdbKey) {
+                            enrichmentData = await enrichMovie(entity.name, tmdbKey);
+                            if (enrichmentData) enrichmentData.type = 'movie';
+                        }
                     }
                 } catch (e) {
                     console.error(`Entity Enrichment Failed for ${entity.name}:`, e.message);
@@ -73,12 +85,15 @@ searchRouter.post('/', async (req, res) => {
                 useTagSearch = true; // Use tag-based retrieval!
                 // No entity enrichment — this is a pure vibe search
 
-            } else {
+            } else if (!isSentimentMode) {
                 // ---- ENTITY path (movie/book title) ----
+                // Only run if user didn't explicitly ask for Sentiment/Vibe
+
                 console.log(`🔍 No curated match for "${query}". Trying entity detection...`);
 
-                // Try TMDB first
-                if (tmdbKey) {
+                // Try TMDB first (if allowed)
+                const allowMovie = !userType || userType === 'auto' || userType === 'filmes';
+                if (allowMovie && tmdbKey) {
                     try {
                         const movie = await enrichMovie(query, tmdbKey);
                         if (movie) {
@@ -106,8 +121,9 @@ searchRouter.post('/', async (req, res) => {
                     }
                 }
 
-                // If no movie, try Google Books
-                if (!enrichmentData) {
+                // If no movie, try Google Books (if allowed)
+                const allowBook = !userType || userType === 'auto' || userType === 'livros';
+                if (!enrichmentData && allowBook) {
                     try {
                         const book = await enrichBook(query);
                         if (book) {
@@ -126,20 +142,28 @@ searchRouter.post('/', async (req, res) => {
                         console.error("Fallback Book Search failed:", e.message);
                     }
                 }
-
-                // If nothing detected at all, try keyword extraction as last resort
-                if (searchTags.length === 0) {
-                    searchTags = extractKeywordsFromText(query);
-                    if (searchTags.length > 0) {
-                        useTagSearch = true;
-                    }
-                }
             }
 
-            // Deduplicate tags
-            searchTags = [...new Set(searchTags)];
-            console.log("🏷️ Final Search Tags:", searchTags);
+            // If explicit sentiment mode but no tags found yet (and we skipped entities)
+            if (isSentimentMode && searchTags.length === 0) {
+                // Force simple keyword extraction as tags
+                console.log("Force-mode: extracting tags directly from query");
+                searchTags = extractKeywordsFromText(query);
+                useTagSearch = true;
+            }
+
+            // If nothing detected at all, try keyword extraction as last resort
+            if (searchTags.length === 0) {
+                searchTags = extractKeywordsFromText(query);
+                if (searchTags.length > 0) {
+                    useTagSearch = true;
+                }
+            }
         }
+
+        // Deduplicate tags
+        searchTags = [...new Set(searchTags)];
+        console.log("🏷️ Final Search Tags:", searchTags);
 
         // ============================================================
         // 2. Track Retrieval
