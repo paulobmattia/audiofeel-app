@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AudioFeel — Intelligence Engine</title>
+  <meta name="description"
+    content="AudioFeel transforma sentimentos, filmes, livros, cores e conceitos em descobertas musicais. Encontre a trilha sonora perfeita para qualquer vibe." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/index.css">
+  <link rel="stylesheet" href="/src/styles/components.css">
+  <link rel="stylesheet" href="/src/styles/animations.css">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>■</text></svg>">
+</head>
+
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="/" class="logo">
+          <span class="logo-text">AUDIO<span class="logo-accent">FEEL</span>_V2.0</span>
+        </a>
+        <nav class="nav">
+          <a href="#about" class="nav-link">SYSTEM_INFO</a>
+          <a href="https://github.com" target="_blank" class="nav-link">SOURCE_CODE</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">
+          SYSTEM_READY
+        </div>
+        <h1 class="hero-title">
+          TRANSFORME<br>
+          <span class="text-accent" id="rotating-word">SENTIMENTOS</span><br>
+          EM DADOS
+        </h1>
+        <p class="hero-subtitle">
+          Input: Sentimento / Filme / Livro / Cor / Conceito.<br>
+          Output: Frequências Sonoras Compatíveis.
+        </p>
+
+        <!-- Search Input -->
+        <div class="search-container">
+          <div class="search-box">
+            <div class="search-type-selector">
+              <button class="type-btn active" data-type="auto" id="type-auto">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z">
+                  </path>
+                </svg>
+                AUTO
+              </button>
+              <button class="type-btn" data-type="sentimento" id="type-sentimento">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                  </path>
+                </svg>
+                SENTIMENTO
+              </button>
+              <button class="type-btn" data-type="filme" id="type-filme">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                  <line x1="7" y1="2" x2="7" y2="22"></line>
+                  <line x1="17" y1="2" x2="17" y2="22"></line>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <line x1="2" y1="7" x2="7" y2="7"></line>
+                  <line x1="2" y1="17" x2="7" y2="17"></line>
+                  <line x1="17" y1="17" x2="22" y2="17"></line>
+                  <line x1="17" y1="7" x2="22" y2="7"></line>
+                </svg>
+                FILME
+              </button>
+              <button class="type-btn" data-type="livro" id="type-livro">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                LIVRO
+              </button>
+              <button class="type-btn" data-type="cor" id="type-cor">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                </svg>
+                COR
+              </button>
+              <button class="type-btn" data-type="conceito" id="type-conceito">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                CONCEITO
+              </button>
+            </div>
+            <div class="search-input-wrapper">
+              <input type="text" id="search-input" class="search-input" placeholder="INPUT_DATA..."
+                autocomplete="off" />
+              <button id="search-btn" class="search-btn">
+                PROCESSAR
+              </button>
+            </div>
+            <div class="search-hints">
+              <span class="hint-label">TRY:</span>
+              <button class="type-btn" data-query="melancólico" data-type="sentimento">MELANCÓLICO</button>
+              <button class="type-btn" data-query="Blade Runner" data-type="filme">BLADE_RUNNER</button>
+              <button class="type-btn" data-query="saudade" data-type="sentimento">SAUDADE</button>
+              <button class="type-btn" data-query="roxo" data-type="cor">ROXO</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loading State -->
+    <section id="loading" class="loading-section hidden">
+      <div class="loader-container">
+        <p class="loader-text">PROCESSANDO_DADOS</p>
+        <!-- Adding a visual loading bar -->
+        <div
+          style="width: 200px; height: 4px; background: var(--bg-tertiary); margin-top: 1rem; position: relative; overflow: hidden;">
+          <div class="loading-bar-fill" style="width: 50%; height: 100%; background: var(--text-primary);"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="results-section hidden">
+      <div class="results-header">
+        <div class="results-meta">
+          <h2 class="results-title">RESULTADOS: <span id="results-query" class="text-accent"></span></h2>
+          <div id="results-tags" class="tag-cloud"></div>
+          <div id="enrichment-info" class="enrichment-card hidden"></div>
+        </div>
+        <button id="new-search-btn" class="btn-secondary">RESETAR_SISTEMA</button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="results-tabs">
+        <button class="tab-btn active" data-tab="tracks" id="tab-tracks">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="16" r="3"></circle>
+          </svg>
+          FAIXAS
+          <span class="tab-count" id="count-tracks">00</span>
+        </button>
+        <button class="tab-btn" data-tab="artists" id="tab-artists">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+          ARTISTAS
+          <span class="tab-count" id="count-artists">00</span>
+        </button>
+        <button class="tab-btn" data-tab="albums" id="tab-albums">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          ÁLBUNS
+          <span class="tab-count" id="count-albums">00</span>
+        </button>
+        <button class="tab-btn" data-tab="playlists" id="tab-playlists">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="16" r="3"></circle>
+          </svg>
+          PLAYLISTS
+          <span class="tab-count" id="count-playlists">00</span>
+        </button>
+      </div>
+
+      <!-- Results Grid -->
+      <div id="results-grid" class="results-grid"></div>
+
+      <!-- Mock mode notice -->
+      <div id="mock-notice" class="mock-notice hidden"
+        style="margin-top: 2rem; border: 1px dashed var(--accent-color); padding: 1rem; color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">
+        [WARN] MOCK_MODE_ACTIVE: Configure API Key para dados reais.
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section" style="border-top: 1px solid var(--border-color);">
+      <div class="about-content">
+        <h2 class="section-title">PROTOCOLO_DE_OPERAÇÃO</h2>
+        <div class="results-grid" style="margin-top: 4rem;">
+          <div class="result-card">
+            <h3>01. INPUT</h3>
+            <p class="card-artist" style="margin-top: 1rem;">O usuário insere parâmetros emocionais ou culturais.</p>
+          </div>
+          <div class="result-card">
+            <h3>02. PROCESSAMENTO</h3>
+            <p class="card-artist" style="margin-top: 1rem;">O sistema analisa vetores semânticos e cruza com metadados
+              de mídia.</p>
+          </div>
+          <div class="result-card">
+            <h3>03. OUTPUT</h3>
+            <p class="card-artist" style="margin-top: 1rem;">Geração de lista de reprodução otimizada para a vibração
+              alvo.</p>
+          </div>
+        </div>
+        <!-- Footer -->
+        <footer class="footer">
+          AUDIOFEEL 2026 TODOS OS DIREITOS RESERVADOS
+        </footer>
+      </div>
+    </section>
+
+    <!-- Mini Audio Player (Deezer 30s previews) -->
+    <div id="mini-player" class="mini-player hidden">
+      <div class="mini-player-inner">
+        <div class="mini-player-info">
+          <span id="mini-player-title" class="mini-player-title">—</span>
+          <span id="mini-player-artist" class="mini-player-artist">—</span>
+        </div>
+        <div class="mini-player-controls">
+          <button id="mini-player-btn" class="mini-player-btn" title="Play/Pause">
+            <svg id="mini-player-icon-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <svg id="mini-player-icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"
+              style="display:none">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </button>
+          <div class="mini-player-progress">
+            <div id="mini-player-bar" class="mini-player-bar"></div>
+          </div>
+          <span id="mini-player-time" class="mini-player-time">0:00</span>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

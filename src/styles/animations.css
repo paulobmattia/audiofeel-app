@@ -1,0 +1,150 @@
+/* ============================================
+   AudioFeel — Animations (Technical/Industrial)
+   ============================================ */
+
+/* ---- Keyframes ---- */
+
+/* Blink effect for cursors and alerts */
+@keyframes blink {
+
+    0%,
+    49% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Mechanical Slide Up (No fade, just movement) */
+@keyframes slideUp {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Glitch Text Effect */
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+
+    20% {
+        transform: translate(-2px, 2px);
+    }
+
+    40% {
+        transform: translate(-2px, -2px);
+    }
+
+    60% {
+        transform: translate(2px, 2px);
+    }
+
+    80% {
+        transform: translate(2px, -2px);
+    }
+
+    100% {
+        transform: translate(0);
+    }
+}
+
+/* Scanline Effect */
+@keyframes scanline {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+/* ---- Animation Utility Classes ---- */
+
+.animate-fade-in-up {
+    animation: slideUp 0.4s var(--ease-mechanical) forwards;
+    opacity: 0;
+}
+
+/* Staggered entry for grid items */
+.result-card.animate {
+    animation: slideUp 0.3s var(--ease-mechanical) forwards;
+    opacity: 0;
+}
+
+.result-card.animate:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.result-card.animate:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.result-card.animate:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.result-card.animate:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.result-card.animate:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.result-card.animate:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+.result-card.animate:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+.result-card.animate:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+.result-card.animate:nth-child(9) {
+    animation-delay: 0.45s;
+}
+
+.result-card.animate:nth-child(10) {
+    animation-delay: 0.5s;
+}
+
+/* ---- Micro-interactions ---- */
+
+/* Hover Glitch for Titles */
+.glitch-hover:hover {
+    animation: glitch 0.2s linear infinite;
+}
+
+/* Pulse for status indicators */
+.status-pulse {
+    animation: blink 1s step-end infinite;
+}
+
+/* Loading Bar Animation */
+@keyframes loadingBar {
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+.loading-bar-fill {
+    animation: loadingBar 2s var(--ease-mechanical) infinite;
+}
